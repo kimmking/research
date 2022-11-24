@@ -1,6 +1,6 @@
 # research-agentx
 
-## Invoke java agent with Cglib
+## Invoke java agent with Javassist
 Modify `<Premain-Class>cn.kimmking.research.agentx.XAgent</Premain-Class>` in pom.xml.
 And then execute command:
 ```shell
