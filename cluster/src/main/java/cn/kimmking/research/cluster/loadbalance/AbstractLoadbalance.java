@@ -11,7 +11,10 @@ import java.util.List;
 public abstract class AbstractLoadbalance<T> implements Loadbalance<T> {
     @Override
     public T choice(List<T> items) {
-        return doChoice(items);
+        if(null == items || items.isEmpty()) {
+            return null;
+        }
+        return items.size() == 1 ? items.get(0) : doChoice(items);
     }
 
     public abstract T doChoice(List<T> items);
