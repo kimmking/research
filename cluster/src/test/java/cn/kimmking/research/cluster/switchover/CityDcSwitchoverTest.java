@@ -3,8 +3,9 @@ package cn.kimmking.research.cluster.switchover;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static cn.kimmking.research.cluster.TestUtil.generate;
 
 /**
  * Description for this class.
@@ -377,13 +378,6 @@ public class CityDcSwitchoverTest {
 
     }
 
-    private List<Integer> generate(int s, int n) {
-        List list = new ArrayList(n);
-        for (int j = 0; j < n; j++) {
-            list.add(s + j);
-        }
-        return list;
-    }
     private void printArgs(int originSize, List<Integer> originItems, int backupSize, List<Integer> backupItems, double threshold) {
         System.out.println(String.format("originSize,originItems.size(),backupSize,backupItems.size(),threshold=[%d,%d,%d,%d,%1.2f]",originSize,originItems.size(),backupSize,backupItems.size(),threshold));
     }

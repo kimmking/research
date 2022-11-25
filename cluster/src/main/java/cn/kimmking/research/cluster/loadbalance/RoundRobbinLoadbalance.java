@@ -16,6 +16,6 @@ public class RoundRobbinLoadbalance<T> extends AbstractLoadbalance<T> {
 
     @Override
     public T doChoice(List<T> items) {
-        return items.get(index.getAndIncrement());
+        return items.get(index.getAndIncrement()%items.size());
     }
 }
