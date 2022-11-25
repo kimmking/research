@@ -1,6 +1,8 @@
 package cn.kimmking.research.cluster.switchover;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Two city Dc items switch over with given threshold and initial sizes.
