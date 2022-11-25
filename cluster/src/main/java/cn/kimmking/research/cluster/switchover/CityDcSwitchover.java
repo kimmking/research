@@ -19,7 +19,7 @@ public class CityDcSwitchover<T> implements Switchover<T> {
     @Override
     public List<T> filter(int originSize, List<T> originItems, int backupSize, List<T> backupItems, double threshold) {
         // 1. if origin dc has no nodes, return backupItems, it's all nodes of current dc switch over.
-        if(null == originItems | originItems.isEmpty()) {
+        if(null == originItems || originItems.isEmpty()) {
             return backupItems;
         }
         // 2. check originSize > alive size
@@ -32,8 +32,8 @@ public class CityDcSwitchover<T> implements Switchover<T> {
         }
 
         // 5. check originSize > alive size
-        assert backupSize > backupItems.size();
-        double backupPercent = backupItems.size()/backupSize;
+        assert backupSize >= backupItems.size();
+        double backupPercent = (double) backupItems.size()/backupSize;
         // 6. if backup dc is switchover now, here return the origin.
         if(backupPercent <= threshold) {
             return originItems;
