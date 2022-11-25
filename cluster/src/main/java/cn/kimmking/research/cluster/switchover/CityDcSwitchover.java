@@ -76,7 +76,7 @@ public class CityDcSwitchover<T> implements Switchover<T> {
             List<T> newItems = new ArrayList<>(originItems.size() + backupNeedItemSize);
             newItems.addAll(originItems);
             newItems.addAll(backupItems.subList(0, backupNeedItemSize));
-            return originItems;
+            return newItems;
         }
     }
 
