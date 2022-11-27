@@ -11,6 +11,8 @@
     <modules>
         <module>cluster</module>
         <module>timewindow</module>
+        <module>qedis</module>
+        <module>localconfig</module>
 <!--         <module>bytecode</module>
         <module>fsm</module>
         <module>agent</module> -->

@@ -8,10 +8,23 @@
         <version>0.0.1-SNAPSHOT</version>
         <!--relativePath>../pom.xml</relativePath-->
     </parent>
-    <artifactId>research-cluster</artifactId>
+    <artifactId>research-qedis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>research-cluster</name>
-    <description>A set of cluster tools and functions in rpc/msa cases.</description>
+    <name>research-qedis</name>
+    <description>A mock redis in java to unit test integration.</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.7.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+        </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -29,6 +42,14 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
         </dependency>
     </dependencies>
 
