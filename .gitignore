@@ -5,4 +5,8 @@ target
 .settings
 logs
 .DS_Store
+*.class
+*.log
+
+
 

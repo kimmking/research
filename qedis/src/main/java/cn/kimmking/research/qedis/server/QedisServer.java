@@ -1,5 +1,6 @@
 package cn.kimmking.research.qedis.server;
 
+import cn.kimmking.research.qedis.QedisCache;
 import cn.kimmking.research.qedis.QedisPlugin;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -8,7 +9,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.redis.RedisDecoder;
 import io.netty.handler.codec.redis.RedisEncoder;
+import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +28,9 @@ public class QedisServer implements QedisPlugin {
     private EventLoopGroup bossGroup;
     private EventLoopGroup workGroup;
     private Channel serverChannel;
+
+    @Autowired
+    QedisCache cache;
 
     @Override
     public void init() {
@@ -50,10 +56,11 @@ public class QedisServer implements QedisPlugin {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline p = ch.pipeline();
-                        p.addLast(new RedisDecoder());
+                        p.addLast(new QedisDecoder());
                         //p.addLast(new RedisEncoder());
                         //p.addLast(new QedisChannelHolder());
-                        p.addLast(new QedisCommandHandler());
+                        p.addLast(new QedisStringHandler(cache));
+                        //p.addLast(new StringEncoder());
                     }
                 });
 

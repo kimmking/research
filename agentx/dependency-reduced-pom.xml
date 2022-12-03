@@ -21,7 +21,7 @@
               <transformers>
                 <transformer>
                   <manifestEntries>
-                    <Premain-Class>cn.kimmking.research.agentx.XAgentByteBuddy</Premain-Class>
+                    <Premain-Class>cn.kimmking.research.agentx.XAgent</Premain-Class>
                     <Can-Redefine-Classes>true</Can-Redefine-Classes>
                     <Can-Retransform-Classes>true</Can-Retransform-Classes>
                   </manifestEntries>

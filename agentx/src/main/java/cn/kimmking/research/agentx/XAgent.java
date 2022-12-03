@@ -42,7 +42,7 @@ public class XAgent {
                             System.out.println("CtMethod is OK.");
                             ctMethod.addLocalVariable("_start", CtClass.longType);
                             ctMethod.insertBefore("_start=System.currentTimeMillis();System.out.println(\"before hello 字节码添加成功。\");");
-                            ctMethod.addLocalVariable("_stop", CtClass.longType);
+                            //ctMethod.addLocalVariable("_stop", CtClass.longType);
                             ctMethod.insertAfter( "_stop=System.currentTimeMillis();System.out.println(\"after hello 字节码添加成功。方法执行了 \" + (_stop-_start) +\" ms.\" );");
                             //ctMethod.insertAfter( "_stop=System.currentTimeMillis();System.out.println(\"after hello 字节码添加成功。方法执行了 \" + (_stop-Long.parseLong(String.valueOf(_start))) +\" ms.\" );");
                             ctClass.writeFile();
