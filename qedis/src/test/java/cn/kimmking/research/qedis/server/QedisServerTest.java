@@ -69,7 +69,7 @@ public class QedisServerTest {
         value = jedis.decr("a1");
         assertEquals(2, value);
 
-        //jedis.close();
+        jedis.close();
     }
 
     @Test
@@ -90,7 +90,7 @@ public class QedisServerTest {
         ret = jedis.get("a1");
         assertNull(ret);
 
-        //jedis.close();
+        jedis.close();
     }
 
     @After
