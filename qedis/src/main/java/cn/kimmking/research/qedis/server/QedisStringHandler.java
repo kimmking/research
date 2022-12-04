@@ -59,7 +59,7 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
         } else if(cmdStr.equalsIgnoreCase("decr")) {
             incrOrDecrReply(ctx, args[4], false);
         } else { // default
-            replyString(ctx, "OK" + CRLF);
+            replyString(ctx, "OK");
         }
     }
 
