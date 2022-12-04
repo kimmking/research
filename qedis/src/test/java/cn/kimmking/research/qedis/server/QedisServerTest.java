@@ -1,6 +1,5 @@
 package cn.kimmking.research.qedis.server;
 
-import cn.kimmking.research.qedis.QedisCache;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
