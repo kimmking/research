@@ -24,12 +24,22 @@ import org.springframework.stereotype.Component;
 @Data
 public class QedisServer implements QedisPlugin {
 
+    public final static int DEFAULT_PORT = 6379;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workGroup;
     private Channel serverChannel;
 
-    @Autowired
-    QedisCache cache;
+    private int port;
+
+    final QedisCache cache = new QedisCache();
+
+    public QedisServer() {
+        this(DEFAULT_PORT);
+    }
+
+    public QedisServer(int port) {
+        this.port = port;
+    }
 
     @Override
     public void init() {
@@ -63,9 +73,8 @@ public class QedisServer implements QedisPlugin {
                     }
                 });
 
-        int port = 6379;
         try {
-            ChannelFuture future = server.bind(port).sync();
+            ChannelFuture future = server.bind(this.port).sync();
             this.serverChannel = future.channel();
         } catch (Exception ex) {
             // todo process ex

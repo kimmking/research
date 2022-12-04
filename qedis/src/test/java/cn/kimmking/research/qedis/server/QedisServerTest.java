@@ -23,7 +23,6 @@ public class QedisServerTest {
     @Before
     public void before() throws Exception {
         server = new QedisServer();
-        server.setCache(new QedisCache());
         server.startup();
     }
 
