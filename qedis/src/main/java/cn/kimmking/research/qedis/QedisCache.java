@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Data
 public class QedisCache {
 
+    // TODO  modify HashMap to guava cache to add eviction and ttl functions
     private Map<String, String> map = new ConcurrentHashMap<>(1024);
 
 }
