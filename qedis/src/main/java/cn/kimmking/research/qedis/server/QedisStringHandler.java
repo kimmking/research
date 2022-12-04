@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  * @Author : kimmking(kimmking@apache.org)
  * @create 2022/12/4 00:03
  */
-public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
+public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
 
     public static final String CRLF = "\r\n";
 
@@ -161,5 +161,11 @@ public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
         } else {
             return "-" + errType + " " + errMsg + CRLF;
         }
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+        System.out.println("Exception caught: " + cause.getMessage());
     }
 }
