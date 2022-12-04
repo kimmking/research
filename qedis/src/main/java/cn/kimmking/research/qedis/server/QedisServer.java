@@ -7,10 +7,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.redis.RedisDecoder;
-import io.netty.handler.codec.redis.RedisEncoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -23,6 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(100)
+@Data
 public class QedisServer implements QedisPlugin {
 
     private EventLoopGroup bossGroup;
@@ -97,6 +96,7 @@ public class QedisServer implements QedisPlugin {
             this.workGroup = null;
         }
     }
+
 
 
 }

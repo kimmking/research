@@ -29,9 +29,9 @@ public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
     public void channelRead0(ChannelHandlerContext ctx, String obj) throws Exception {
 
         String msg = (String) obj;
-        System.out.println("handler:" + CRLF +msg);
+        System.out.println("handler:" + CRLF + msg);
 
-        if(msg.trim().endsWith("COMMAND")) {
+        if(msg.trim().endsWith("COMMAND")) { // for redis-cli only
             System.out.println("Process COMMAND:" + CRLF);
             replyArray(ctx, null);
             return;
@@ -48,8 +48,8 @@ public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
             infoReply(ctx);
         } else if(cmdStr.equalsIgnoreCase("del")) {
             delReply(ctx, args[4]);
-        } else if(cmdStr.equalsIgnoreCase("len")) {
-            lenReply(ctx, args[4]);
+        } else if(cmdStr.equalsIgnoreCase("strlen")) {
+            strlenReply(ctx, args[4]);
         } else if(cmdStr.equalsIgnoreCase("exists")) {
             existsReply(ctx, args[4]);
         } else if(cmdStr.equalsIgnoreCase("incr")) {
@@ -57,7 +57,7 @@ public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
         } else if(cmdStr.equalsIgnoreCase("decr")) {
             incrOrDecrReply(ctx, args[4], false);
         } else { // default
-            replyString(ctx, "+OK" + CRLF);
+            replyString(ctx, "OK" + CRLF);
         }
     }
 
@@ -87,7 +87,7 @@ public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
         replyInteger(ctx, len);
     }
 
-    private void lenReply(ChannelHandlerContext ctx, String key) {
+    private void strlenReply(ChannelHandlerContext ctx, String key) {
         String value = this.cache.getMap().get(key);
         int len = value == null ? -1 : value.length();
         replyInteger(ctx, len);
