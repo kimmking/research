@@ -42,8 +42,10 @@ public class QedisStringHandler  extends SimpleChannelInboundHandler<String> {
         String cmdStr = args[2];
         if(cmdStr.equalsIgnoreCase("set")) {
             setReply(ctx, args[4], args[6]);
+            //replyString(ctx, "X1" + CRLF); // 验证test_case_00
         } else if(cmdStr.equalsIgnoreCase("get")) {
             getReply(ctx, args[4]);
+            //replyString(ctx, "X2" + CRLF); // 验证test_case_00
         } else if(cmdStr.equalsIgnoreCase("info")) {
             infoReply(ctx);
         } else if(cmdStr.equalsIgnoreCase("del")) {

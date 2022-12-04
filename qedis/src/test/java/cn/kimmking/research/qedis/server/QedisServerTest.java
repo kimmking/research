@@ -25,6 +25,16 @@ public class QedisServerTest {
         server.startup();
     }
 
+//    @Test
+//    public void testcase_00() {
+//        Jedis jedis = new Jedis("localhost", 6379);
+//        String ret = jedis.set("a1", "1"); // 默认正常报文外多一个报文X1
+//        assertEquals("OK", ret);
+//        String value = jedis.get("a1");    // 默认正常报文外多一个报文X2
+//        assertEquals("X1", value);  // 这里拿到的是X1
+//        jedis.close();
+//    }
+
     @Test
     public void testcase_01() {
         Jedis jedis = new Jedis("localhost", 6379);
