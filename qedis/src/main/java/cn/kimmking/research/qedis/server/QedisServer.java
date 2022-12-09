@@ -75,6 +75,7 @@ public class QedisServer implements QedisPlugin {
         try {
             ChannelFuture future = server.bind(this.port).sync();
             this.serverChannel = future.channel();
+            this.cache.start();
         } catch (Exception ex) {
             // todo process ex
             ex.printStackTrace();
@@ -83,6 +84,7 @@ public class QedisServer implements QedisPlugin {
 
     @Override
     public void shutdown() {
+        this.cache.shutdown();
         shutdownServerChanel();
         shutdownGracefully();
     }

@@ -93,6 +93,31 @@ public class QedisServerTest {
         jedis.close();
     }
 
+    @Test
+    public void testcase_04_ttl() {
+        Jedis jedis = new Jedis("localhost", 6379);
+        String ret = jedis.set("a1", "a111");
+        assertEquals("OK", ret);
+
+        ret = jedis.get("a1");
+        assertEquals("a111", ret);
+
+        long lret = jedis.expire("a1", 1L);
+        System.out.println("expire a1:" + lret);
+
+        try {
+            Thread.sleep(1100L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        ret = jedis.get("a1");
+        System.out.println("after 1.1s, test a1->" + ret);
+        assertNull(ret);
+
+        jedis.close();
+    }
+
     @After
     public void after() throws Exception {
         server.getCache().getMap().clear();

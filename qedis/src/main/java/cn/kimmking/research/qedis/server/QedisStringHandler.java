@@ -58,6 +58,10 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
             incrOrDecrReply(ctx, args[4], true);
         } else if(cmdStr.equalsIgnoreCase("decr")) {
             incrOrDecrReply(ctx, args[4], false);
+        } else if(cmdStr.equalsIgnoreCase("expire")) {
+            expireReply(ctx, args[4], args[6]);
+        } else if(cmdStr.equalsIgnoreCase("ttl")) {
+            ttlReply(ctx, args[4]);
         } else { // default
             replyString(ctx, "OK");
         }
@@ -70,13 +74,24 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
     }
 
     private void getReply(ChannelHandlerContext ctx, String key) {
-        String value = this.cache.getMap().get(key);
+        String value = this.cache.get(key);
         replyString(ctx,  value);
     }
 
     private void setReply(ChannelHandlerContext ctx, String key, String value) {
-        this.cache.getMap().put(key, value);
+        this.cache.set(key, value);
         replyString(ctx,  "OK");
+    }
+
+    private void expireReply(ChannelHandlerContext ctx, String key, String sttl) {
+        long ttl = Long.valueOf(sttl);
+        boolean expire = this.cache.expire(key, ttl);
+        replyInteger(ctx, expire ? 1 : 0);
+    }
+
+    private void ttlReply(ChannelHandlerContext ctx, String key) {
+        long ttl = this.cache.ttl(key);
+        replyInteger(ctx, (int) ttl);
     }
 
     private void delReply(ChannelHandlerContext ctx, String key) {
@@ -90,13 +105,13 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
     }
 
     private void strlenReply(ChannelHandlerContext ctx, String key) {
-        String value = this.cache.getMap().get(key);
+        String value = this.cache.get(key);
         int len = value == null ? -1 : value.length();
         replyInteger(ctx, len);
     }
 
     private void incrOrDecrReply(ChannelHandlerContext ctx, String key, boolean incr) {
-        String value = this.cache.getMap().get(key);
+        String value = this.cache.get(key);
 
         try{
             int intValue = Integer.parseInt(value);
@@ -104,7 +119,7 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
                 intValue++;
             else
                 intValue--;
-            this.cache.getMap().put(key, Integer.valueOf(intValue).toString());
+            this.cache.set(key, Integer.valueOf(intValue).toString());
             replyInteger(ctx, intValue);
         } catch (NumberFormatException nfe) {
             replyError(ctx, "NFE", value + " can't convert to int value");
