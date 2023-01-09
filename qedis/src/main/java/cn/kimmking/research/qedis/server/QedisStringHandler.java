@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.AttributeKey;
 
 import java.nio.charset.StandardCharsets;
 
@@ -27,6 +28,8 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String obj) throws Exception {
+
+        System.out.println("ctx.attribute name => " + ctx.channel().attr(AttributeKey.valueOf("name")).get());
 
         String msg = (String) obj;
         System.out.println("handler:" + CRLF + msg);
@@ -62,6 +65,10 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
             expireReply(ctx, args[4], args[6]);
         } else if(cmdStr.equalsIgnoreCase("ttl")) {
             ttlReply(ctx, args[4]);
+        } else if(cmdStr.equalsIgnoreCase("hget")) {
+            hgetReply(ctx, args[4], args[6]);
+        } else if(cmdStr.equalsIgnoreCase("hset")) {
+            hsetReply(ctx, args[4], args[6], args[8]);
         } else { // default
             replyString(ctx, "OK");
         }
@@ -81,6 +88,16 @@ public class QedisStringHandler extends SimpleChannelInboundHandler<String> {
     private void setReply(ChannelHandlerContext ctx, String key, String value) {
         this.cache.set(key, value);
         replyString(ctx,  "OK");
+    }
+
+    private void hsetReply(ChannelHandlerContext ctx, String key, String field, String value) {
+        this.cache.hset(key, field, value);
+        replyString(ctx,  "OK");
+    }
+
+    private void hgetReply(ChannelHandlerContext ctx, String key, String field) {
+        String value = this.cache.hget(key, field);
+        replyString(ctx,  value);
     }
 
     private void expireReply(ChannelHandlerContext ctx, String key, String sttl) {

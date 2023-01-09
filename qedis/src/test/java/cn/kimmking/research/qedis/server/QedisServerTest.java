@@ -3,7 +3,10 @@ package cn.kimmking.research.qedis.server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPoolConfig;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -114,6 +117,24 @@ public class QedisServerTest {
         ret = jedis.get("a1");
         System.out.println("after 1.1s, test a1->" + ret);
         assertNull(ret);
+
+        jedis.close();
+    }
+
+
+    @Test
+    public void testcase_05_auth() {
+
+        DefaultJedisClientConfig config = DefaultJedisClientConfig.builder().clientName("App1_Y_X1_Client01").user("user1").password("passwd1").build();
+        Jedis jedis = new Jedis( new HostAndPort("localhost", 6379), config);
+
+        jedis.ping();
+
+        String ret = jedis.set("a1", "a111");
+        assertEquals("OK", ret);
+
+        ret = jedis.get("a1");
+        assertEquals("a111", ret);
 
         jedis.close();
     }

@@ -66,7 +66,7 @@ public class QedisServer implements QedisPlugin {
                         ChannelPipeline p = ch.pipeline();
                         p.addLast(new QedisDecoder());
                         //p.addLast(new RedisEncoder());
-                        //p.addLast(new QedisChannelHolder());
+                        p.addLast(new QedisChannelHolder());
                         p.addLast(new QedisStringHandler(cache));
                         //p.addLast(new StringEncoder());
                     }

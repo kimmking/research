@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -47,8 +48,37 @@ public class QedisCache {
     // TODO  modify HashMap to guava cache to add eviction and ttl functions
     private Map<String, CacheEntry<String>> map = new ConcurrentHashMap<>(1024);
 
+    private Map<String, CacheEntry<Map<String,String>>> hmap = new ConcurrentHashMap<>(128);
+
     public void set(String key, String value) {
         this.map.put(key, new CacheEntry(value, System.currentTimeMillis(), -1000));
+    }
+
+    public void hset(String key, String field, String value) {
+        CacheEntry<Map<String,String>> entry = this.hmap.get(key);
+        if(entry == null) {
+            synchronized (this.hmap) {
+                if((entry = this.hmap.get(key)) == null) {
+                    entry = new CacheEntry<Map<String,String>>(new HashMap<>(16), System.currentTimeMillis(), -1000);
+                    this.hmap.put(key, entry);
+                }
+            }
+        }
+        entry.getValue().put(field, value);
+    }
+
+    public String hget(String key, String field) {
+        CacheEntry<Map<String,String>> entry = this.hmap.get(key);
+        if (entry == null || entry.getValue() == null) return null;
+        if (entry.getTtl() < 0) return entry.getValue().get(field);
+
+        if(CURRENT - entry.getTs() > entry.getTtl()) {
+            System.out.println(String.format("KEY[%s] expire cause CURRENT[%d]-TS[%d] > TTL[%d] ms",
+                    key, CURRENT, entry.getTs(), entry.getTtl()));
+            this.hmap.remove(key);
+            return null;
+        }
+        return entry.getValue().get(field);
     }
 
     public String get(String key) {
