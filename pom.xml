@@ -12,6 +12,7 @@
         <module>cluster</module>
         <module>timewindow</module>
         <module>qedis</module>
+        <module>redisbench</module>
         <module>localconfig</module>
 <!--         <module>bytecode</module>
         <module>fsm</module>

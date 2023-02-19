@@ -1,0 +1,63 @@
+package cn.kimmking.research.redisbench;
+
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+
+import java.time.Duration;
+import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Description for this class.
+ *
+ * @Author : kimmking(kimmking@apache.org)
+ * @create 2023/2/19 14:14
+ */
+public class RedisBenchUtils {
+
+    public static ThreadPoolExecutor createExecutor(int core, int max, int queue) {
+        return new ThreadPoolExecutor(core, max,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(queue),
+                createThreadFactory(),
+                new ThreadPoolExecutor.CallerRunsPolicy());
+    }
+
+    private static ThreadFactory createThreadFactory() {
+        return new ThreadFactory() {
+            private AtomicInteger id = new AtomicInteger();
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r, "RedisBench-" + id.getAndIncrement());
+                thread.setDaemon(true);
+                return thread;
+            }
+        };
+    }
+
+
+    final static String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public static String getRandomString(int length) {
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        return sb.toString();
+    }
+
+
+    public static GenericObjectPoolConfig createPoolConfig(int min, int max, int total, int maxwait) {
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        poolConfig.setMinIdle(min);
+        poolConfig.setMaxIdle(max);
+        poolConfig.setMaxTotal(total);
+        poolConfig.setMaxWait(Duration.ofSeconds(maxwait));
+        return poolConfig;
+    }
+
+}

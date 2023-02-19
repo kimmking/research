@@ -8,10 +8,10 @@
         <version>0.0.1-SNAPSHOT</version>
         <!--relativePath>../pom.xml</relativePath-->
     </parent>
-    <artifactId>research-qedis</artifactId>
+    <artifactId>research-redisbench</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>research-qedis</name>
-    <description>A mock redis in java to unit test integration.</description>
+    <name>research-redisbench</name>
+    <description>A redis benchmark in java.</description>
 
     <dependencyManagement>
         <dependencies>
@@ -55,7 +55,16 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>4.2.1</version>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>6.1.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.14.1</version>
         </dependency>
 
     </dependencies>
