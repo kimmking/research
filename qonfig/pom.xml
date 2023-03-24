@@ -8,10 +8,10 @@
         <version>0.0.1-SNAPSHOT</version>
         <!--relativePath>../pom.xml</relativePath-->
     </parent>
-    <artifactId>research-localconfig</artifactId>
+    <artifactId>research-qonfig</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>research-localconfig</name>
-    <description>Verify spring boot config concurrent issue.</description>
+    <name>research-qonfig</name>
+    <description>Verify some config issues.</description>
 
     <!-- springCloud的依赖-->
     <dependencyManagement>
@@ -31,29 +31,37 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
+            <version>2.2.2.RELEASE</version>
         </dependency>
 
         <!-- actuator的依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.7.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.7.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version></version>
+            <version>2.7.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -70,11 +78,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.7.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>2.7.3</version>
+            <version>2.7.6</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

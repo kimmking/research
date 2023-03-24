@@ -13,7 +13,7 @@
         <module>timewindow</module>
         <module>qedis</module>
         <module>redisbench</module>
-        <module>localconfig</module>
+        <module>qonfig</module>
 <!--         <module>bytecode</module>
         <module>fsm</module>
         <module>agent</module> -->
