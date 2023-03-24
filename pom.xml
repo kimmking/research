@@ -14,7 +14,7 @@
         <module>qedis</module>
         <module>redisbench</module>
         <module>qonfig</module>
-        <module>codec</module>
+        <module>qodec</module>
 <!--         <module>bytecode</module>
         <module>fsm</module>
         <module>agent</module> -->

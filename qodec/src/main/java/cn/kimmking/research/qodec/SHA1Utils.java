@@ -1,4 +1,4 @@
-package cn.kimmking.research.codec;
+package cn.kimmking.research.qodec;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
