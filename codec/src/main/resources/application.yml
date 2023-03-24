@@ -1,0 +1,13 @@
+server:
+  port: 9091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+
+config:
+  version: 22
+  appname: kk
+  database: mysql

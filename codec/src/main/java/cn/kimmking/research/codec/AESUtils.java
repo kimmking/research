@@ -1,4 +1,4 @@
-package cn.kimmking.research.qonfig;
+package cn.kimmking.research.codec;
 
 import org.springframework.util.Base64Utils;
 
