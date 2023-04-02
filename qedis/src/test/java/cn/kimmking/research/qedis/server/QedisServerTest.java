@@ -6,8 +6,6 @@ import org.junit.Test;
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPoolConfig;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

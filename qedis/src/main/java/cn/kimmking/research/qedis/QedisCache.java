@@ -95,6 +95,10 @@ public class QedisCache {
         return entry.getValue();
     }
 
+    public int exists(String key) {
+        return this.map.containsKey(key) ? 1 : 0;
+    }
+
     public boolean expire(String key, long ttl) {
         CacheEntry<String> entry = this.map.get(key);
         if (entry == null) return false;
