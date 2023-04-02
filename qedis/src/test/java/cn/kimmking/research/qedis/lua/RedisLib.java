@@ -69,5 +69,18 @@ public class RedisLib extends TwoArgFunction {
         }
         globals.set(env, LuaValue.listOf(array));
     }
+
+    public static void configJava(Globals globals) {
+        globals.set("printJava", new VarArgFunction(){
+            @Override
+            public Varargs invoke(Varargs args) {
+                int n = args.narg();
+                for (int i = 1; i <= n; i++) {
+                    System.out.println(args.arg(i).toString());
+                }
+                return NIL;
+            }
+        });
+    }
     
 }

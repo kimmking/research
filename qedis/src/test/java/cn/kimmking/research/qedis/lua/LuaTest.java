@@ -30,9 +30,9 @@ public class LuaTest {
         LuaTable table = (LuaTable) value2;
         assertEquals(2, table.length());
         LuaValue f = table.get(1);
-        assertEquals("123",f.tojstring());
+        assertEquals("123",f.toString());
         LuaValue v = table.get(2);
-        assertEquals("abcd",v.tojstring());
+        assertEquals("abcd",v.toString());
     }
 
     @Test
@@ -45,7 +45,19 @@ public class LuaTest {
         globals.set("KEYS", LuaValue.listOf(array));
         LuaValue script = globals.load("return KEYS[1]");
         LuaValue value = script.call();
-        assertEquals("k0", value.tojstring());
+        assertEquals("k0", value.toString());
+    }
+
+    @Test
+    public void test_configJava_lua() {
+        Globals globals = JsePlatform.standardGlobals();
+        RedisLib.configJava(globals);
+        RedisLib.config(globals, "KEYS", "tag1");
+        RedisLib.config(globals, "ARGV", "101", "value101");
+
+        LuaValue script = globals.load("printJava('#KEYS='..#KEYS,'ARGV[1]='..ARGV[1],'ARGV[2]='..ARGV[2]) return #ARGV");
+        LuaValue value = script.call();
+        assertEquals("2", value.toString());
     }
 
     @Test
@@ -89,6 +101,6 @@ public class LuaTest {
 
     }
 
- 
+    
 
 }
