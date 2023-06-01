@@ -18,6 +18,38 @@ public class CityDcSwitchoverTest {
     static final int N = 20000;
 
     @Test
+    public void testCityDcSwitchover_case_3nodes() {
+        System.out.println("\r\n ==> flow switchover to backup test case0");
+        List<Integer> originItems = generate(0, 1);
+        int originSize = 3;
+        List<Integer> backupItems = generate(100, 3);
+        int backupSize = 3;
+        double threshold = 0.8;
+        printArgs(originSize, originItems, backupSize, backupItems, threshold);
+
+        CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
+        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        //System.out.println(Arrays.toString(result.toArray()));
+        int originRatio = 0;
+        int backupRatio = 0;
+        for (int i = 0; i < N; i++) {
+            result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+            if(result.get(0) == 0) originRatio++;
+            if(result.get(0) == 100) backupRatio++;
+        }
+
+        System.out.println("originRatio: " + originRatio);
+        System.out.println("backupRatio: " + backupRatio);
+
+        double ratio = (double) originRatio/backupRatio;
+        System.out.println("ratio = originRatio/backupRatio = " + ratio);
+        System.out.println(" ==> flow switchover to backup = " + String.format("%.2f%%",backupRatio*100.0/N) + "%");
+        Assert.assertTrue(ratio > 3d*0.9);
+        Assert.assertTrue(ratio < 3d*1.1);
+
+    }
+
+    @Test
     public void testCityDcSwitchover_case0() {
         System.out.println("\r\n ==> flow switchover to backup test case0");
         List<Integer> originItems = generate(0, 3);

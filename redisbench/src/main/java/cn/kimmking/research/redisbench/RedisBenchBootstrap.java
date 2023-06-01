@@ -17,11 +17,10 @@ import org.springframework.context.annotation.Bean;
 import redis.clients.jedis.*;
 import redis.clients.jedis.util.IOUtils;
 
-import java.time.Duration;
 import java.util.concurrent.*;
 
-import static cn.kimmking.research.redisbench.RedisBenchUtils.createPoolConfig;
-import static cn.kimmking.research.redisbench.RedisBenchUtils.getRandomString;
+import static cn.kimmking.research.redisbench.RedisUtils.createPoolConfig;
+import static cn.kimmking.research.redisbench.RedisUtils.getRandomString;
 
 /**
  * Description for this class.
