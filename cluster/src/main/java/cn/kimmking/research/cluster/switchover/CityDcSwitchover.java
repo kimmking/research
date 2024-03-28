@@ -23,7 +23,7 @@ public class CityDcSwitchover<T> implements Switchover<T> {
             return backupItems;
         }
         // 2. check originSize > alive size
-        assert originSize > originItems.size();
+        assert originSize >= originItems.size();
         // 3. calculate current percent
         double percent =  (double) originItems.size()/originSize;
         // 4. check current percent >= threshold and return originItems

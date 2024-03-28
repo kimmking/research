@@ -1,5 +1,6 @@
 package cn.kimmking.research.qonfig;
 
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.Date;
@@ -12,13 +13,13 @@ import java.util.Date;
  */
 public class CommandLine {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         System.out.println("PID：" + runtimeMXBean.getPid());
         System.out.println("启动时间：" + new Date(runtimeMXBean.getStartTime()).toString());
         System.out.println("JDK版本：" + runtimeMXBean.getVmName() + ","
                 + runtimeMXBean.getVmVendor() + "," + runtimeMXBean.getVmVersion());
-        System.out.println("启动参数：");
+        System.out.println("启动参数："); System.in.read();
         runtimeMXBean.getInputArguments().forEach(System.out::println);
     }
 

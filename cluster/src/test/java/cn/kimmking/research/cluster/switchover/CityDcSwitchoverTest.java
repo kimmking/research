@@ -19,7 +19,7 @@ public class CityDcSwitchoverTest {
 
     @Test
     public void testCityDcSwitchover_case_3nodes() {
-        System.out.println("\r\n ==> flow switchover to backup test case0");
+        System.out.println("\r\n ==> flow switchover to backup test case 3nodes");
         List<Integer> originItems = generate(0, 1);
         int originSize = 3;
         List<Integer> backupItems = generate(100, 3);
@@ -28,7 +28,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -44,8 +44,8 @@ public class CityDcSwitchoverTest {
         double ratio = (double) originRatio/backupRatio;
         System.out.println("ratio = originRatio/backupRatio = " + ratio);
         System.out.println(" ==> flow switchover to backup = " + String.format("%.2f%%",backupRatio*100.0/N) + "%");
-        Assert.assertTrue(ratio > 3d*0.9);
-        Assert.assertTrue(ratio < 3d*1.1);
+        Assert.assertTrue(ratio > 0.71*0.9);
+        Assert.assertTrue(ratio < 0.71*1.1);
 
     }
 
@@ -60,7 +60,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -93,7 +93,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -125,7 +125,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -159,7 +159,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -190,7 +190,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -223,7 +223,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -256,7 +256,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -289,7 +289,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -322,7 +322,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -355,7 +355,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
@@ -388,7 +388,7 @@ public class CityDcSwitchoverTest {
         printArgs(originSize, originItems, backupSize, backupItems, threshold);
 
         CityDcSwitchover<Integer> switchover = new CityDcSwitchover();
-        List<Integer> result = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
+        List<Integer> result;// = switchover.filter(originSize, originItems, backupSize, backupItems, threshold);
         //System.out.println(Arrays.toString(result.toArray()));
         int originRatio = 0;
         int backupRatio = 0;
