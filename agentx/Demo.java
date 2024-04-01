@@ -9,6 +9,9 @@ public class Demo {
         System.out.println("invoke Demo.main()");
         Demo demo = new Demo();
         demo.hello();
+        System.out.println(" ======================== ");
+        java.util.Date date = new java.util.Date();
+        System.out.println(date.toString());
     }
 
     void hello(){

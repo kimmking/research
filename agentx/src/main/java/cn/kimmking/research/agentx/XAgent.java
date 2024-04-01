@@ -27,8 +27,11 @@ public class XAgent {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
                 System.out.println(className + ", byte[].len=" + className.length());
-                final String TEST_CLASS_NAME = "Demo";
-                final String METHOD_NAME = "hello";
+//                final String TEST_CLASS_NAME = "Demo";
+//                final String METHOD_NAME = "hello";
+
+                final String TEST_CLASS_NAME = "java.util.Date";
+                final String METHOD_NAME = "toString";
 
                 String finalClassName = className.replace("/", ".");
 
@@ -42,7 +45,7 @@ public class XAgent {
                             System.out.println("CtMethod is OK.");
                             ctMethod.addLocalVariable("_start", CtClass.longType);
                             ctMethod.insertBefore("_start=System.currentTimeMillis();System.out.println(\"before hello 字节码添加成功。\");");
-                            //ctMethod.addLocalVariable("_stop", CtClass.longType);
+                            ctMethod.addLocalVariable("_stop", CtClass.longType);
                             ctMethod.insertAfter( "_stop=System.currentTimeMillis();System.out.println(\"after hello 字节码添加成功。方法执行了 \" + (_stop-_start) +\" ms.\" );");
                             //ctMethod.insertAfter( "_stop=System.currentTimeMillis();System.out.println(\"after hello 字节码添加成功。方法执行了 \" + (_stop-Long.parseLong(String.valueOf(_start))) +\" ms.\" );");
                             ctClass.writeFile();

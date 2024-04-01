@@ -26,10 +26,17 @@ public class XAgentByteBuddy {
         System.out.println("invoke premain: " + args);
 
         new AgentBuilder.Default().type(ElementMatchers.named("Demo"))
-                .transform((builder, type, c, j) -> builder
+                .transform((builder, type, c, j, p) -> builder
                         .method(ElementMatchers.named("hello"))
                         .intercept(MethodDelegation.to(LogTimeAdvisor.class)))
                 .installOn(inst);
+
+        // jdk 8
+//        new AgentBuilder.Default().type(ElementMatchers.named("Demo"))
+//                .transform((builder, type, c, j) -> builder
+//                        .method(ElementMatchers.named("hello"))
+//                        .intercept(MethodDelegation.to(LogTimeAdvisor.class)))
+//                .installOn(inst);
     }
 
     // 注意这里必须public，否则interpret不起作用
