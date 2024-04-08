@@ -48,7 +48,7 @@ public class XAgent {
                             ctMethod.addLocalVariable("_stop", CtClass.longType);
                             ctMethod.insertAfter( "_stop=System.currentTimeMillis();System.out.println(\"after hello 字节码添加成功。方法执行了 \" + (_stop-_start) +\" ms.\" );");
                             //ctMethod.insertAfter( "_stop=System.currentTimeMillis();System.out.println(\"after hello 字节码添加成功。方法执行了 \" + (_stop-Long.parseLong(String.valueOf(_start))) +\" ms.\" );");
-                            ctClass.writeFile();
+                            ctClass.writeFile("/tmp/");
                             return ctClass.toBytecode();
                         } catch (Exception e) {
                             e.printStackTrace();
