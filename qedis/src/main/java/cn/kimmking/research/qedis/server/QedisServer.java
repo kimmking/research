@@ -1,6 +1,6 @@
 package cn.kimmking.research.qedis.server;
 
-import cn.kimmking.research.qedis.QedisCache;
+import cn.kimmking.research.qedis.core.QedisCache;
 import cn.kimmking.research.qedis.QedisPlugin;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -67,7 +67,7 @@ public class QedisServer implements QedisPlugin {
                         p.addLast(new QedisDecoder());
                         //p.addLast(new RedisEncoder());
                         p.addLast(new QedisChannelHolder());
-                        p.addLast(new QedisStringHandler(cache));
+                        p.addLast(new QedisCommandHandler(cache));
                         //p.addLast(new StringEncoder());
                     }
                 });

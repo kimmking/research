@@ -9,8 +9,8 @@ import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.mockito.internal.util.io.IOUtil;
 
-import cn.kimmking.research.qedis.QedisCache;
-import cn.kimmking.research.qedis.QedisCache.CacheEntry;
+import cn.kimmking.research.qedis.core.QedisCache;
+import cn.kimmking.research.qedis.core.QedisCache.CacheEntry;
 
 public class RedisLib extends TwoArgFunction {
 

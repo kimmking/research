@@ -1,12 +1,11 @@
-package cn.kimmking.research.qedis;
+package cn.kimmking.research.qedis.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -59,7 +58,7 @@ public class QedisCache {
         if(entry == null) {
             synchronized (this.hmap) {
                 if((entry = this.hmap.get(key)) == null) {
-                    entry = new CacheEntry<Map<String,String>>(new HashMap<>(16), System.currentTimeMillis(), -1000);
+                    entry = new CacheEntry<>(new HashMap<>(16), System.currentTimeMillis(), -1000);
                     this.hmap.put(key, entry);
                 }
             }
@@ -95,8 +94,13 @@ public class QedisCache {
         return entry.getValue();
     }
 
-    public int exists(String key) {
-        return this.map.containsKey(key) ? 1 : 0;
+    public int exists(String...keys) {
+        return keys == null ? 0 : (int) Arrays.stream(keys).map(this.map::containsKey)
+                .filter(x -> x).count();
+    }
+    public int del(String...keys) {
+        return keys == null ? 0 : (int) Arrays.stream(keys).map(this.map::remove)
+                .filter(Objects::nonNull).count();
     }
 
     public boolean expire(String key, long ttl) {
@@ -114,6 +118,10 @@ public class QedisCache {
         long ret = (entry.getTs()+entry.getTtl() - CURRENT)/1000;
         if(ret > 0) return ret;
         return -1;
+    }
+
+    public Integer strlen(String key) {
+        return this.get(key) == null ? null : this.get(key).length();
     }
 
 
