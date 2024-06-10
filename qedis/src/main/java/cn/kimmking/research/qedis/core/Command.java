@@ -51,4 +51,13 @@ public interface Command {
         }
         return vals;
     }
+
+    default String[] getParamsNoKey(String[] args) {
+        int len = (args.length-5)/2;
+        String[] vals = new String[len];
+        for (int i = 0; i < len; i++) {
+            vals[i] = args[6 + i*2];
+        }
+        return vals;
+    }
 }

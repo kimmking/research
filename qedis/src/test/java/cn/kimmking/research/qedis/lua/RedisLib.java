@@ -44,7 +44,7 @@ public class RedisLib extends TwoArgFunction {
             } else if("GET".equalsIgnoreCase(cmd)) {
                 return valueOf(qedis.get(key));
             } else if("DEL".equalsIgnoreCase(cmd)) {
-                CacheEntry<String> removed = qedis.getMap().remove(key);;
+                CacheEntry<?> removed = qedis.getMap().remove(key);;
                 return valueOf(removed == null ? 0 : 1);
             } else if("MSET".equalsIgnoreCase(cmd)) {
                 for (int i = 2; i < n; i+=2) {
