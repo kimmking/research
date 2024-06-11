@@ -42,6 +42,13 @@ public class Commands {
         registerCommand(new RpushCommand());
         registerCommand(new RpopCommand());
 
+        registerCommand(new HsetCommand());
+        registerCommand(new HgetCommand());
+        registerCommand(new HgetallCommand());
+        registerCommand(new HdelCommand());
+        registerCommand(new HlenCommand());
+        registerCommand(new HexistsCommand());
+
     }
 
     private static void registerCommand(Command cmd) {

@@ -113,11 +113,7 @@ public class QedisCommandHandler extends SimpleChannelInboundHandler<String> {
     }
 
     private void hsetReply(ChannelHandlerContext ctx, String key, String[] fields, String[] values) {
-        for(int i = 0; i < fields.length; i++) {
-            String field = fields[i];
-            String value = values[i];
-            this.cache.hset(key, field, value);
-        }
+        this.cache.hset(key, fields, values);
         replyString(ctx,  "OK");
     }
 

@@ -60,4 +60,22 @@ public interface Command {
         }
         return vals;
     }
+
+    default String[] getHvals(String[] args) {
+        int hlen = args.length / 4 - 1;
+        String[] values = new String[hlen];
+        for(int i = 0; i < hlen; i++) {
+            values[i] = args[i * 4 + 8];
+        }
+        return values;
+    }
+
+    default String[] getHkeys(String[] args) {
+        int hlen = args.length / 4 - 1;
+        String[] fields = new String[hlen];
+        for(int i = 0; i < hlen; i++) {
+            fields[i] = args[i * 4 + 6];
+        }
+        return fields;
+    }
 }

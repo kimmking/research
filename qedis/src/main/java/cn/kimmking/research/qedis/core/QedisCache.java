@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import static java.lang.Math.min;
 
@@ -235,8 +236,9 @@ public class QedisCache {
 
     // ================  hash start ======================
 
-    public void hset(String key, String field, String value) {
+    public int hset(String key, String[] fields, String[] values) {
         CacheEntry<?> entry = this.map.get(key);
+        if(fields == null || fields.length == 0) return 0;
         if(entry == null) {
             synchronized (this.map) {
                 if((entry = this.map.get(key)) == null) {
@@ -246,7 +248,10 @@ public class QedisCache {
             }
         }
         HashMap<String,String> exist = (HashMap<String, String>) entry.getValue();
-        exist.put(field, value);
+        for(int i = 0; i < fields.length; i ++) {
+            exist.put(fields[i], values[i]);
+        }
+        return fields.length;
     }
 
     public String hget(String key, String field) {
@@ -261,6 +266,82 @@ public class QedisCache {
             return null;
         }
         return ((Map<String,String>) value).get(field);
+    }
+
+    public String[] hgetall(String key) {
+        CacheEntry<?> entry = this.map.get(key);
+        if (entry == null || entry.getValue() == null) return null;
+        Object value = entry.getValue();
+
+        if(entry.getTtl() > 0 && CURRENT - entry.getTs() > entry.getTtl()) {
+            System.out.println(String.format("KEY[%s] expire cause CURRENT[%d]-TS[%d] > TTL[%d] ms",
+                    key, CURRENT, entry.getTs(), entry.getTtl()));
+            this.map.remove(key);
+            return null;
+        }
+        Map<String,String> map = (Map<String,String>) value;
+        return map.entrySet().stream()
+                .flatMap(e -> Stream.of(e.getKey(),e.getValue())).toArray(String[]::new);
+    }
+
+    public String[] hmget(String key, String... fields) {
+        CacheEntry<?> entry = this.map.get(key);
+        if (entry == null || entry.getValue() == null) return null;
+        Object value = entry.getValue();
+
+        if(entry.getTtl() > 0 && CURRENT - entry.getTs() > entry.getTtl()) {
+            System.out.println(String.format("KEY[%s] expire cause CURRENT[%d]-TS[%d] > TTL[%d] ms",
+                    key, CURRENT, entry.getTs(), entry.getTtl()));
+            this.map.remove(key);
+            return null;
+        }
+        Map<String,String> v = (Map<String,String>) value;
+        return Arrays.stream(fields).flatMap(f -> Stream.of(f, v.get(f))).toArray(String[]::new);
+    }
+
+    public int hlen(String key) {
+        CacheEntry<?> entry = this.map.get(key);
+        if (entry == null || entry.getValue() == null) return 0;
+        Object value = entry.getValue();
+
+        if(entry.getTtl() > 0 && CURRENT - entry.getTs() > entry.getTtl()) {
+            System.out.println(String.format("KEY[%s] expire cause CURRENT[%d]-TS[%d] > TTL[%d] ms",
+                    key, CURRENT, entry.getTs(), entry.getTtl()));
+            this.map.remove(key);
+            return 0;
+        }
+        Map<String,String> v = (Map<String,String>) value;
+        return v.size();
+    }
+
+    public int hexists(String key, String field) {
+        CacheEntry<?> entry = this.map.get(key);
+        if (entry == null || entry.getValue() == null) return 0;
+        Object value = entry.getValue();
+
+        if(entry.getTtl() > 0 && CURRENT - entry.getTs() > entry.getTtl()) {
+            System.out.println(String.format("KEY[%s] expire cause CURRENT[%d]-TS[%d] > TTL[%d] ms",
+                    key, CURRENT, entry.getTs(), entry.getTtl()));
+            this.map.remove(key);
+            return 0;
+        }
+        Map<String,String> v = (Map<String,String>) value;
+        return v.containsKey(field) ? 1 : 0;
+    }
+
+    public int hdel(String key, String... fields) {
+        CacheEntry<?> entry = this.map.get(key);
+        if (entry == null || entry.getValue() == null) return 0;
+        Object value = entry.getValue();
+
+        if(entry.getTtl() > 0 && CURRENT - entry.getTs() > entry.getTtl()) {
+            System.out.println(String.format("KEY[%s] expire cause CURRENT[%d]-TS[%d] > TTL[%d] ms",
+                    key, CURRENT, entry.getTs(), entry.getTtl()));
+            this.map.remove(key);
+            return 0;
+        }
+        Map<String,String> v = (Map<String,String>) value;
+        return (int) Arrays.stream(fields).map(v::remove).filter(Objects::nonNull).count();
     }
 
 
