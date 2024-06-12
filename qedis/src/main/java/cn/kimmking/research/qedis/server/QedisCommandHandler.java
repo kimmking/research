@@ -76,21 +76,21 @@ public class QedisCommandHandler extends SimpleChannelInboundHandler<String> {
             expireReply(ctx, args[4], args[6]);
         } else if(cmdStr.equalsIgnoreCase("ttl")) {
             ttlReply(ctx, args[4]);
-        } else if(cmdStr.equalsIgnoreCase("hget")) {
-            hgetReply(ctx, args[4], args[6]);
-        } else if(cmdStr.equalsIgnoreCase("hset")) {
-            int hlen = args.length / 4 - 1;
-            if(hlen == 0) {
-                replyString(ctx, "OK");
-                return;
-            }
-            String fields[] = new String[hlen];
-            String values[] = new String[hlen];
-            for(int i = 0; i < hlen; i++) {
-                fields[i] = args[i * 4 + 6];
-                values[i] = args[i * 4 + 8];
-            }
-            hsetReply(ctx, args[4], fields, values);
+//        } else if(cmdStr.equalsIgnoreCase("hget")) {
+//            hgetReply(ctx, args[4], args[6]);
+//        } else if(cmdStr.equalsIgnoreCase("hset")) {
+//            int hlen = args.length / 4 - 1;
+//            if(hlen == 0) {
+//                replyString(ctx, "OK");
+//                return;
+//            }
+//            String fields[] = new String[hlen];
+//            String values[] = new String[hlen];
+//            for(int i = 0; i < hlen; i++) {
+//                fields[i] = args[i * 4 + 6];
+//                values[i] = args[i * 4 + 8];
+//            }
+//            hsetReply(ctx, args[4], fields, values);
         } else { // default
             replyString(ctx, "OK");
         }
@@ -101,26 +101,26 @@ public class QedisCommandHandler extends SimpleChannelInboundHandler<String> {
                 "args = " + String.join(",", args));
         reply(ctx, command.exec(cache, args));
     }
-
-    private void getReply(ChannelHandlerContext ctx, String key) {
-        String value = this.cache.get(key);
-        replyString(ctx,  value);
-    }
-
-    private void setReply(ChannelHandlerContext ctx, String key, String value) {
-        this.cache.set(key, value);
-        replyString(ctx,  "OK");
-    }
-
-    private void hsetReply(ChannelHandlerContext ctx, String key, String[] fields, String[] values) {
-        this.cache.hset(key, fields, values);
-        replyString(ctx,  "OK");
-    }
-
-    private void hgetReply(ChannelHandlerContext ctx, String key, String field) {
-        String value = this.cache.hget(key, field);
-        replyString(ctx,  value);
-    }
+//
+//    private void getReply(ChannelHandlerContext ctx, String key) {
+//        String value = this.cache.get(key);
+//        replyString(ctx,  value);
+//    }
+//
+//    private void setReply(ChannelHandlerContext ctx, String key, String value) {
+//        this.cache.set(key, value);
+//        replyString(ctx,  "OK");
+//    }
+//
+//    private void hsetReply(ChannelHandlerContext ctx, String key, String[] fields, String[] values) {
+//        this.cache.hset(key, fields, values);
+//        replyString(ctx,  "OK");
+//    }
+//
+//    private void hgetReply(ChannelHandlerContext ctx, String key, String field) {
+//        String value = this.cache.hget(key, field);
+//        replyString(ctx,  value);
+//    }
 
     private void expireReply(ChannelHandlerContext ctx, String key, String sttl) {
         long ttl = Long.valueOf(sttl);
@@ -132,39 +132,39 @@ public class QedisCommandHandler extends SimpleChannelInboundHandler<String> {
         long ttl = this.cache.ttl(key);
         replyInteger(ctx, (int) ttl);
     }
-
-    private void delReply(ChannelHandlerContext ctx, String key) {
-        this.cache.getMap().remove(key);
-        replyInteger(ctx, 1);
-    }
-
-    private void existsReply(ChannelHandlerContext ctx, String key) {
-        int len = this.cache.getMap().containsKey(key) ? 1 : 0;
-        replyInteger(ctx, len);
-    }
-
-    private void strlenReply(ChannelHandlerContext ctx, String key) {
-        String value = this.cache.get(key);
-        int len = value == null ? -1 : value.length();
-        replyInteger(ctx, len);
-    }
-
-    private void incrOrDecrReply(ChannelHandlerContext ctx, String key, boolean incr) {
-        String value = this.cache.get(key);
-
-        try{
-            int intValue = Integer.parseInt(value);
-            if(incr)
-                intValue++;
-            else
-                intValue--;
-            this.cache.set(key, Integer.valueOf(intValue).toString());
-            replyInteger(ctx, intValue);
-        } catch (NumberFormatException nfe) {
-            replyError(ctx, "NFE", value + " can't convert to int value");
-        }
-
-    }
+//
+//    private void delReply(ChannelHandlerContext ctx, String key) {
+//        this.cache.getMap().remove(key);
+//        replyInteger(ctx, 1);
+//    }
+//
+//    private void existsReply(ChannelHandlerContext ctx, String key) {
+//        int len = this.cache.getMap().containsKey(key) ? 1 : 0;
+//        replyInteger(ctx, len);
+//    }
+//
+//    private void strlenReply(ChannelHandlerContext ctx, String key) {
+//        String value = this.cache.get(key);
+//        int len = value == null ? -1 : value.length();
+//        replyInteger(ctx, len);
+//    }
+//
+//    private void incrOrDecrReply(ChannelHandlerContext ctx, String key, boolean incr) {
+//        String value = this.cache.get(key);
+//
+//        try{
+//            int intValue = Integer.parseInt(value);
+//            if(incr)
+//                intValue++;
+//            else
+//                intValue--;
+//            this.cache.set(key, Integer.valueOf(intValue).toString());
+//            replyInteger(ctx, intValue);
+//        } catch (NumberFormatException nfe) {
+//            replyError(ctx, "NFE", value + " can't convert to int value");
+//        }
+//
+//    }
 
     private void reply(ChannelHandlerContext ctx, Reply<?> reply) {
         switch (reply.getType()) {

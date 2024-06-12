@@ -48,6 +48,14 @@ public class Commands {
         registerCommand(new HdelCommand());
         registerCommand(new HlenCommand());
         registerCommand(new HexistsCommand());
+        registerCommand(new HmgetCommand());
+
+        registerCommand(new SaddCommand());
+        registerCommand(new SremCommand());
+        registerCommand(new ScardCommand());
+        registerCommand(new SismemberCommand());
+        registerCommand(new SmembersCommand());
+        registerCommand(new SpopCommand());
 
     }
 
