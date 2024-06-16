@@ -306,6 +306,61 @@ public class QedisCache {
 
     // ================  set end ======================
 
+    // ================  zset start ===================
+
+    public int zadd(String key, String[] values, double[] scores) {
+        CacheEntry<?> entry = this.map.get(key);
+        if(entry == null) {
+            synchronized (this.map) {
+                if((entry = this.map.get(key)) == null) {
+                    entry = new CacheEntry<>(new LinkedHashSet<ZsetEntry>(), System.currentTimeMillis(), -1000);
+                    this.map.put(key, entry);
+                }
+            }
+        }
+        LinkedHashSet<ZsetEntry> exist = (LinkedHashSet<ZsetEntry>) entry.getValue();
+        for(int i = 0; i < values.length; i ++) {
+            exist.add(new ZsetEntry(values[i], scores[i]));
+        }
+        return values.length;
+    }
+
+    public int zcard(String key) {
+        if(checkInvalid(key)) return 0;
+        LinkedHashSet<ZsetEntry> exist = (LinkedHashSet<ZsetEntry>) this.map.get(key).getValue();
+        return exist.size();
+    }
+
+    public int zcount(String key, double min, double max) {
+        if(checkInvalid(key)) return 0;
+        LinkedHashSet<ZsetEntry> exist = (LinkedHashSet<ZsetEntry>) this.map.get(key).getValue();
+        return (int) exist.stream().filter(e -> e.getScore() >= min && e.getScore() <= max).count();
+    }
+
+    public Double zscore(String key, String value) {
+        if(checkInvalid(key)) return null;
+        LinkedHashSet<ZsetEntry> exist = (LinkedHashSet<ZsetEntry>) this.map.get(key).getValue();
+        return exist.stream().filter(e -> e.getValue().equals(value))
+                .map(ZsetEntry::getScore).findFirst().orElse(null);
+    }
+
+    public Integer zrank(String key, String value) {
+        if(checkInvalid(key)) return null;
+        LinkedHashSet<ZsetEntry> exist = (LinkedHashSet<ZsetEntry>) this.map.get(key).getValue();
+        Double zscore = zscore(key, value);
+        if(zscore == null) return null;
+        return (int) exist.stream().filter(x -> x.getScore() < zscore).count();
+    }
+
+    public int zrem(String key, String... values) {
+        if(checkInvalid(key)) return 0;
+        LinkedHashSet<ZsetEntry> exist = (LinkedHashSet<ZsetEntry>) this.map.get(key).getValue();
+        return (int) Arrays.stream(values)
+                .map(x->exist.removeIf(y->y.getValue().equals(x)))
+                .filter(Objects::nonNull).count();
+    }
+
+    // ================  zset end =====================
 
     @Data
     @AllArgsConstructor
@@ -314,6 +369,13 @@ public class QedisCache {
         private T value;
         private long ts; // created timestamp
         private long ttl; // alive ttl
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ZsetEntry {
+        private String value;
+        private Double score;
     }
 
 }

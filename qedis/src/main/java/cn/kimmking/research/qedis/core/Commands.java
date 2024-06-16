@@ -57,6 +57,13 @@ public class Commands {
         registerCommand(new SmembersCommand());
         registerCommand(new SpopCommand());
 
+        registerCommand(new ZaddCommand());
+        registerCommand(new ZremCommand());
+        registerCommand(new ZscoreCommand());
+        registerCommand(new ZcardCommand());
+        registerCommand(new ZcountCommand());
+        registerCommand(new ZrankCommand());
+
     }
 
     private static void registerCommand(Command cmd) {
